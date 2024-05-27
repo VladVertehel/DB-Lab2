@@ -1,0 +1,96 @@
+﻿﻿@using Domain.Entities;
+@{
+    ViewData["Title"] = "QueryA4";
+}
+
+@model IEnumerable<Reader>
+
+<style>
+    * {
+        color: whitesmoke;
+    }
+
+    .navbar {
+        z-index: 2;
+    }
+
+    .btn {
+        z-index: 1;
+    }
+
+    p {
+        margin-bottom: 14px;
+    }
+
+    .color {
+        background-color: whitesmoke;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffbb;
+    }
+
+        a:hover {
+            color: #ffff91;
+        }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 35px;
+    }
+
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5rem;
+        width: 40px;
+        height: 40px;
+    }
+
+    input {
+        color: black;
+    }
+
+    form p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+        form p * {
+            margin: 0 5px;
+        }
+</style>
+
+    @if (Model != null && Model.Any())
+    {
+<body class="bg-dark">
+        <h2>Результат</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Користувач</th>
+                    <th>Ім'я</th>
+                    <th>Контактні дані</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reader in Model)
+                {
+                    <tr>
+                        <td>@reader.ID</td>
+                        <td>@reader.Name</td>
+                        <td>@reader.ContactInfo</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </body>
+    }
+    else
+    {
+        <p>За вашим запитом нічого не знайдено</p>
+    }

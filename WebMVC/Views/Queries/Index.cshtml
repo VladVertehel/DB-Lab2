@@ -1,0 +1,243 @@
+﻿@{
+    ViewData["Title"] = "QueryPage";
+}
+<style>
+    * {
+        color: whitesmoke;
+    }
+
+    .navbar {
+        z-index: 100;
+    }
+
+    .btn {
+        z-index: 1;
+    }
+
+    p {
+        margin-bottom: 0px;
+    }
+
+    .color {
+        background-color: whitesmoke;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffbb;
+    }
+
+        a:hover {
+            color: #ffff91;
+        }
+
+    input {
+        color: black;
+    }
+
+    form p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+        form p * {
+            margin: 0 5px;
+        }
+
+    .container {
+        color: #6c757d !important;
+        display: flex;
+    }
+
+    .text-center {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        width: 100%;
+        height: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        padding-left: 140px;
+    }
+
+    option {
+        color: black;
+    }
+
+    .btn {
+        margin: 5px 0;
+        color: black;
+        border: none;
+    }
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5rem;
+        width: 40px;
+        height: 40px;
+        margin-left: 20px;
+    }
+</style>
+
+<body class="bg-dark">
+<h1>Запити</h1>
+    <div class="text-center">
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right: 20px;">Знайти усі платівки замовлені користувачем</h5>
+    @using (Html.BeginForm("QueryA1", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+            <select class="form-control" id="readerId" name="readerId">
+                @foreach (var reader in @ViewBag.Readers)
+                {
+                    <option value="@reader.ID">@reader.Name</option>
+                }
+            </select>
+                    <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right: 20px;">Знайти користувачів, які замовили платівку жанру</h5>
+    @using (Html.BeginForm("QueryA2", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+            <select class="form-control" id="genreId" name="genreId">
+                @if (ViewBag.Genres != null)
+                {
+                    foreach (var genre in ViewBag.Genres)
+                    {
+                        <option value="@genre.ID">@genre.Name</option>
+                    }
+                }
+            </select>
+                    <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right: 20px;">Знайти усі платівки, що вийшли після</h5>
+    @using (Html.BeginForm("QueryA3", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+            <input type="int" class="form-control" id="publishingYear" name="publishingYear" required>
+                    <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right: 20px;">Знайти усіх користувачів, які замовили платівку</h5>
+    @using (Html.BeginForm("QueryA4", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+            <select class="form-control" id="bookId" name="bookId">
+                @foreach (var book in @ViewBag.Books)
+                {
+                    <option value="@book.ID">@book.Title</option>
+                }
+            </select>
+                    <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right:20px;">Знайти платівки авторства</h5>
+    @using (Html.BeginForm("QueryA5", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+            <select class="form-control" id="authorId" name="authorId">
+                @foreach (var author in @ViewBag.Authors)
+                {
+                    <option value="@author.ID">@author.Name</option>
+                }
+            </select>
+                    <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+</div>
+
+@* <h1>Complex queries(using set comparison)</h1>
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right: 20px;">Find users who wrote articles only in categories of articles by</h5>
+    @using (Html.BeginForm("QueryB1", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+            <select class="form-control" id="userId" name="userId">
+                @foreach (var user in @ViewBag.Users)
+                {
+                    <option value="@user.UserId">@user.Username</option>
+                }
+            </select>
+        <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+</div>
+ *@
+@* <div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right: 20px;">Find categories which have articles by all users who have an article in</h5>
+    @using (Html.BeginForm("QueryB2", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+            <select class="form-control" id="categoryId" name="categoryId">
+                @if (ViewBag.Categories != null)
+                {
+                    @foreach (var category in @ViewBag.Categories)
+                    {
+                        <option value="@category.CategoryId">@category.Name</option>
+                    }
+                }
+            </select>
+        <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+</div>
+ *@
+@* <div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right: 20px;">Find admins who checked all articles checked by</h5>
+    @using (Html.BeginForm("QueryB3", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; flex-wrap: nowrap; align-items: center;">
+            <select class="form-control" id="adminId" name="adminId">
+                @foreach (var admin in @ViewBag.Administrators)
+                {
+                    <option value="@admin.AdminId">@admin.Username</option>
+                }
+            </select>
+            <span style="display: flex; align-items: center; margin-left: 10px; white-space: nowrap;">
+                <span style="margin-right: 5px;">and something else</span>
+            </span>
+        <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+</div>
+ *@
+@* <div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <h5 style="margin-right: 20px;">Find users who wrote comments only under articles commented by</h5>
+    @using (Html.BeginForm("QueryB4", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+            <select class="form-control" id="userId" name="userId">
+                @foreach (var user in @ViewBag.Users)
+                {
+                    <option value="@user.UserId">@user.Username</option>
+                }
+            </select>
+            <span style="display: flex; align-items: center; margin-left: 10px; white-space: nowrap;">
+                <span style="margin-right: 5px;">but not under all of them</span>
+            </span>
+        <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+        </div>
+    }
+        </div>*@
+    </div>
+</body>

@@ -1,0 +1,165 @@
+﻿@model PaginatedList<Domain.Entities.Author>
+@{
+    ViewData["Title"] = "Автори";
+}
+
+<style>
+    * {
+        color: whitesmoke;
+    }
+
+    .navbar {
+        z-index: 2;
+    }
+
+    .btn {
+        z-index: 1;
+    }
+    p {
+        margin-bottom: 14px;
+    }
+
+    .color {
+        background-color: whitesmoke;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffbb;
+    }
+
+        a:hover {
+            color: #ffff91;
+        }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin: 35px 0;
+    }
+
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5rem;
+        width: 40px;
+        height: 40px;
+    }
+
+    input {
+        color: black;
+    }
+
+    form p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+        form p * {
+            margin: 0 5px;
+        }
+
+    .container {
+        color: #6c757d !important;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+<body class="bg-dark">
+<h1>Автори</h1>
+
+<p>
+    <a asp-action="Create">Створити нового</a>
+
+    <form asp-action="Index" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Пошук за іменем: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                    <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button> |
+                    <a asp-action="Index" class="btn btn-default color filter"><img style="scale: 90%;" src="../css/filter.png" alt="Alternate Text" /></a>
+            </p>
+        </div>
+    </form>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Ім'я</a>
+            </th>
+            <th>
+                Біографія
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Biography)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Детально</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+    <div class="buttons">
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default color @prevDisabled">
+            <img style="scale: 80%; transform: rotateZ(180deg);" src="../css/right-arrow.png" alt="arrow" />
+        </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default color @nextDisabled">
+            <img style="scale: 80%;" src="../css/right-arrow.png" alt="arrow" />
+        </a>
+    </div>
+
+<div class="container">
+    <div id="chart1"></div>
+</div>
+@section scripts {
+    <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Chart/JsonDataForAuthors', function (JsonDataForAuthors) {
+                data = google.visualization.arrayToDataTable(JsonDataForAuthors, false);
+                var option = {
+                    title: "Співвідношення кількості альбомів та авторів",
+                    width: 1200,
+                    height: 400
+                };
+                chart = new google.visualization.ColumnChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+}
+</body>

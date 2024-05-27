@@ -1,0 +1,87 @@
+﻿@model Domain.Entities.Author
+
+@{
+    ViewData["Title"] = "Редагувати";
+}
+<style>
+    * {
+        color: whitesmoke;
+    }
+
+    p {
+        margin-bottom: 14px;
+    }
+
+    .color {
+        background-color: whitesmoke;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffbb;
+    }
+
+        a:hover {
+            color: #ffff91;
+        }
+
+    .btn {
+        margin: 15px 0;
+        background-color: #ffff91;
+        color: black;
+    }
+
+    input {
+        color: black;
+    }
+
+    form p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+        form p * {
+            margin: 0 5px;
+        }
+
+    .form-group .form-control * {
+        color: black;
+    }
+
+    .navbar {
+        display: none;
+    }
+</style>
+<body class="bg-dark">
+<h1>Редагувати</h1>
+
+<h4>Автор</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Biography" class="control-label"></label>
+                <input asp-for="Biography" class="form-control" />
+                <span asp-validation-for="Biography" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад до списку</a>
+</div>
+
+</body>

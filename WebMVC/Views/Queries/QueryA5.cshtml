@@ -1,0 +1,107 @@
+﻿﻿@using Domain.Entities;
+﻿@{
+    ViewData["Title"] = "QueryA5";
+}
+
+@model IEnumerable<Book>
+<style>
+    * {
+        color: whitesmoke;
+    }
+
+    .navbar {
+        z-index: 2;
+    }
+
+    .btn {
+        z-index: 1;
+    }
+
+    p {
+        margin-bottom: 14px;
+    }
+
+    .color {
+        background-color: whitesmoke;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffbb;
+    }
+
+        a:hover {
+            color: #ffff91;
+        }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 35px;
+    }
+
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5rem;
+        width: 40px;
+        height: 40px;
+    }
+
+    input {
+        color: black;
+    }
+
+    form p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+        form p * {
+            margin: 0 5px;
+        }
+</style>
+
+    @if (Model != null && Model.Any())
+    {
+<body class="bg-dark">
+        <h2>Результат</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Платівка</th>
+                    <th>Назва</th>
+                    <th>Автор</th>
+                    <th>Автор</th>
+                    <th>Лейбл</th>
+                    <th>Лейбл</th>
+                    <th>Рік</th>
+                    <th>Жанр</th>
+                    <th>Жанр</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td>@book.ID</td>
+                        <td>@book.Title</td>
+                        <td>@book.AuthorId</td>
+                        <td>@book.Author</td>
+                        <td>@book.PublisherId</td>
+                        <td>@book.Publisher</td>
+                        <td>@book.PublishingYear</td>
+                        <td>@book.GenreId</td>
+                        <td>@book.Genre</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </body>
+    }
+    else
+    {
+        <p>За вашим запитом нічого не знайдено</p>
+    }

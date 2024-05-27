@@ -1,0 +1,79 @@
+﻿@model Domain.Entities.Reader
+
+@{
+    ViewData["Title"] = "Детально";
+}
+<style>
+    * {
+        color: whitesmoke;
+    }
+
+    p {
+        margin-bottom: 14px;
+    }
+
+    .color {
+        background-color: whitesmoke;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ffffbb;
+    }
+
+        a:hover {
+            color: #ffff91;
+        }
+
+    .btn {
+        margin: 15px 0;
+    }
+
+    input {
+        color: black;
+    }
+
+    form p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+        form p * {
+            margin: 0 5px;
+        }
+
+    .form-group .form-control * {
+        color: black;
+    }
+
+    .navbar {
+        display: none;
+    }
+</style>
+<body class="bg-dark">
+<h1>Детально</h1>
+
+<div>
+    <h4>Користувач</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ContactInfo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContactInfo)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ID">Редагувати</a> |
+    <a asp-action="Index">Назад до списку</a>
+</div>
+</body>
