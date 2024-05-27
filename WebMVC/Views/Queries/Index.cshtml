@@ -83,12 +83,24 @@
         height: 40px;
         margin-left: 20px;
     }
+    .el
+    {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 90%;
+        justify-content: space-between;
+    }
+    .form-control{
+        width: 350px;
+        text-align: center;
+    }
 </style>
 
 <body class="bg-dark">
 <h1>Запити</h1>
     <div class="text-center">
-        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <div class="el">
     <h5 style="margin-right: 20px;">Знайти усі платівки замовлені користувачем</h5>
     @using (Html.BeginForm("QueryA1", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
@@ -104,7 +116,7 @@
     }
 </div>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <div class="el">
     <h5 style="margin-right: 20px;">Знайти користувачів, які замовили платівку жанру</h5>
     @using (Html.BeginForm("QueryA2", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
@@ -123,7 +135,7 @@
     }
 </div>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <div class="el">
     <h5 style="margin-right: 20px;">Знайти усі платівки, що вийшли після</h5>
     @using (Html.BeginForm("QueryA3", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
@@ -134,7 +146,7 @@
     }
 </div>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <div class="el">
     <h5 style="margin-right: 20px;">Знайти усіх користувачів, які замовили платівку</h5>
     @using (Html.BeginForm("QueryA4", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
@@ -150,7 +162,7 @@
     }
 </div>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <div class="el">
     <h5 style="margin-right:20px;">Знайти платівки авторства</h5>
     @using (Html.BeginForm("QueryA5", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
@@ -167,7 +179,7 @@
 </div>
 
 @* <h1>Complex queries(using set comparison)</h1>
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
+        <div class="el">
     <h5 style="margin-right: 20px;">Find users who wrote articles only in categories of articles by</h5>
     @using (Html.BeginForm("QueryB1", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
@@ -183,7 +195,7 @@
     }
 </div>
  *@
-@* <div style="display: flex; align-items: center; margin-bottom: 20px;">
+        @* <div class="el">
     <h5 style="margin-right: 20px;">Find categories which have articles by all users who have an article in</h5>
     @using (Html.BeginForm("QueryB2", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
@@ -202,7 +214,7 @@
     }
 </div>
  *@
-@* <div style="display: flex; align-items: center; margin-bottom: 20px;">
+        @* <div class="el">
     <h5 style="margin-right: 20px;">Find admins who checked all articles checked by</h5>
     @using (Html.BeginForm("QueryB3", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
@@ -221,7 +233,7 @@
     }
 </div>
  *@
-@* <div style="display: flex; align-items: center; margin-bottom: 20px;">
+        @* <div class="el">
     <h5 style="margin-right: 20px;">Find users who wrote comments only under articles commented by</h5>
     @using (Html.BeginForm("QueryB4", "Queries", FormMethod.Post, new { @class = "form-inline" }))
     {
