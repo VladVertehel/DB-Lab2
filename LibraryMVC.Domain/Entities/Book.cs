@@ -21,6 +21,7 @@ public partial class Book : Entity
     [Display(Name = "Лейбл")]
     public string? Publisher { get; set; }
     [Display(Name = "Рік створення")]
+    [Range(1800, 2024)]
     public int PublishingYear { get; set; }
     [Display(Name = "Жанр")]
     public int? GenreId { get; set; }

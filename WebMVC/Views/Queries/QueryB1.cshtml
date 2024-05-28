@@ -1,8 +1,9 @@
-﻿@model PaginatedList<Domain.Entities.Book>
-
-@{
-    ViewData["Title"] = "Query6";
+﻿﻿@using Domain.Entities;
+﻿@{
+    ViewData["Title"] = "QueryB1";
 }
+
+@model IEnumerable<Author>
 <style>
     * {
         color: whitesmoke;
@@ -63,87 +64,35 @@
         }
 </style>
 
+    @if (Model != null && Model.Any())
+    {
 <body class="bg-dark">
-    <h1>Запит 6</h1>
-
+    <h2>Результат</h2>
     <table class="table">
         <thead>
             <tr>
-                <th>
-                    Назва
-                </th>
-                <th>
-                    Автор
-                </th>
-                <th>
-                    Автор
-                </th>
-                <th>
-                    Лейбл
-                </th>
-                <th>
-                    Лейбл
-                </th>
-                <th>
-                    Рік
-                </th>
-                <th>
-                    Жанр
-                </th>
-                <th>
-                    Жанр
-                </th>
-                <th></th>
+                <th>Автор</th>
+                <th>Автор</th>
+                <th>Біографія</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var author in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AuthorId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Author)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PublisherId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Publisher)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PublishingYear)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GenreId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Genre)
-                    </td>
+                    <td>@author.ID</td>
+                    <td>@author.Name</td>
+                    <td>@author.Biography</td>
                 </tr>
             }
         </tbody>
     </table>
+    </body>
+}
+else
+{
+    <body class="bg-dark">
+        <p>За вашим запитом нічого не знайдено</p>
+    </body>
 
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
-
-    <div class="buttons">
-        <a asp-action="Query6"
-           asp-route-pageNumber="@(Model.PageIndex - 1)"
-           class="btn btn-default color @prevDisabled">
-            <img style="scale: 80%; transform: rotateZ(180deg);" src="../css/right-arrow.png" alt="arrow" />
-        </a>
-        <a asp-action="Query6"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
-           class="btn btn-default color @nextDisabled">
-            <img style="scale: 80%;" src="../css/right-arrow.png" alt="arrow" />
-        </a>
-    </div>
-</body>
+}

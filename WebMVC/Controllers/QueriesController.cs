@@ -1,4 +1,5 @@
-﻿using Infrastracture;
+﻿using Domain.Entities;
+using Infrastracture;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace LibraryWebApplication1.Controllers
@@ -93,116 +94,117 @@ namespace LibraryWebApplication1.Controllers
                 .ToList();
             return View("QueryA5", books);
         }
-        //[HttpPost]
-        //public IActionResult QueryB1(int userId)
-        //{
-        //    var users = _context.Users
-        //        .FromSqlInterpolated($@"
-        //        SELECT *
-        //        FROM [User] AS U
-        //        WHERE NOT EXISTS
-        //        (
-        //            SELECT *
-        //            FROM Article AS X
-        //            WHERE X.AuthorId = U.UserId
-        //            AND X.CategoryId NOT IN
-        //            (
-        //                SELECT Y.CategoryId
-        //                FROM Article AS Y
-        //                WHERE Y.AuthorId = {userId}
-        //            )
-        //        )").ToList();
-        //    return View("QueryB1", users);
-        //}
-        //[HttpPost]
-        //public IActionResult QueryB2(int categoryId)
-        //{
-        //    var categories = _context.Categories
-        //        .FromSqlInterpolated($@"
-        //        SELECT *
-        //        FROM Category AS C
-        //        WHERE NOT EXISTS
-        //        (
-        //            SELECT *
-        //            FROM Article AS X
-        //            WHERE X.CategoryId = {categoryId}
-        //            AND X.AuthorId NOT IN
-        //            (
-        //                SELECT Y.AuthorId
-        //                FROM Article AS Y
-        //                WHERE Y.CategoryId = C.CategoryId
-        //            )
-        //        )").ToList();
-        //    return View("QueryB2", categories);
-        //}
-        //[HttpPost]
-        //public IActionResult QueryB3(int adminId)
-        //{
-        //    var admins = _context.Administrator
-        //        .FromSqlInterpolated($@"
-        //        SELECT *
-        //        FROM Administrator AS A
-        //        WHERE NOT EXISTS
-        //        (
-        //            SELECT *
-        //            FROM RequestCheck AS X
-        //            WHERE X.AdminId = {adminId}
-        //            AND X.ArticleId NOT IN
-        //            (
-        //                SELECT Y.ArticleId
-        //                FROM RequestCheck AS Y
-        //                WHERE Y.AdminId = A.AdminId
-        //            )
-        //        )
-        //        AND EXISTS
-        //        (
-        //            SELECT *
-        //            FROM RequestCheck AS X0
-        //            WHERE X0.AdminId = A.AdminId
-        //            AND X0.ArticleId NOT IN
-        //            (
-        //                SELECT Y0.ArticleId
-        //                FROM RequestCheck AS Y0
-        //                WHERE Y0.AdminId = {adminId}
-        //            )
-        //        )"
-        //        )
-        //        .ToList();
-        //    return View("QueryB3", admins);
-        //}
-        //public IActionResult QueryB4(int userId)
-        //{
-        //    var users = _context.Users
-        //        .FromSqlInterpolated($@"
-        //        SELECT *
-        //        FROM [User] AS A
-        //        WHERE NOT EXISTS
-        //        (
-        //            SELECT *
-        //            FROM Comment AS X
-        //            WHERE X.AuthorId = A.UserId
-        //            AND X.ArticleId NOT IN
-        //            (
-        //                SELECT Y.ArticleId
-        //                FROM Comment AS Y
-        //                WHERE Y.AuthorId = {userId}
-        //            )
-        //        )
-        //        AND EXISTS
-        //        (
-        //            SELECT *
-        //            FROM Comment AS X0
-        //            WHERE X0.AuthorId = {userId}
-        //            AND X0.ArticleId NOT IN
-        //            (
-        //                SELECT Y0.ArticleId
-        //                FROM Comment AS Y0
-        //                WHERE Y0.AuthorId = A.UserId
-        //            )
-        //        )"
-        //        )
-        //        .ToList();
-        //    return View("QueryB4", users);
-        //}
+        [HttpPost]
+        public IActionResult QueryB1(int authorId)
+        {
+            var authors = _context.Authors
+                .FromSqlInterpolated($@"
+                SELECT *
+                FROM Authors AS U
+                WHERE NOT EXISTS
+                (
+                    SELECT *
+                    FROM Books AS X
+                    WHERE X.author_ID = U.author_ID
+                    AND X.genre_ID NOT IN
+                    (
+                        SELECT Y.genre_ID
+                        FROM Books AS Y
+                        WHERE Y.author_ID = {authorId}
+                    )
+                )").ToList();
+            return View("QueryB1", authors);
+        }
+        [HttpPost]
+        public IActionResult QueryB2(int genreId)
+        {
+            var genres = _context.Genres
+                .FromSqlInterpolated($@"
+                SELECT *
+                FROM Genres AS G
+                WHERE NOT EXISTS
+                (
+                    SELECT *
+                    FROM Books AS X
+                    WHERE X.genre_ID = {genreId}
+                    AND X.author_ID NOT IN
+                    (
+                        SELECT Y.author_ID
+                        FROM Books AS Y
+                        WHERE Y.genre_ID = G.genre_ID
+                    )
+                )").ToList();
+            return View("QueryB2", genres);
+        }
+        [HttpPost]
+        public IActionResult QueryB3(int readerId)
+        {
+            var readers = _context.Readers
+                .FromSqlInterpolated($@"
+                SELECT *
+                FROM Readers AS R
+                WHERE NOT EXISTS
+                (
+                    SELECT *
+                    FROM BorrowedBooks AS X
+                    WHERE X.reader_ID = {readerId}
+                    AND X.book_ID NOT IN
+                    (
+                        SELECT Y.book_ID
+                        FROM BorrowedBooks AS Y
+                        WHERE Y.reader_ID = R.reader_ID
+                    )
+                )
+                AND EXISTS
+                (
+                    SELECT *
+                    FROM BorrowedBooks AS X0
+                    WHERE X0.reader_ID = R.reader_ID
+                    AND X0.book_ID NOT IN
+                    (
+                        SELECT Y0.book_ID
+                        FROM BorrowedBooks AS Y0
+                        WHERE Y0.reader_ID = {readerId}
+                    )
+                )"
+                )
+                .ToList();
+            return View("QueryB3", readers);
+        }
+        [HttpPost]
+        public IActionResult QueryB4(int readerId)
+        {
+            var readers = _context.Readers
+                .FromSqlInterpolated($@"
+                SELECT *
+                FROM Readers AS R
+                WHERE NOT EXISTS
+                (
+                    SELECT *
+                    FROM BorrowedBooks AS X
+                    WHERE X.reader_ID = R.reader_ID
+                    AND X.book_ID NOT IN
+                    (
+                        SELECT Y.book_ID
+                        FROM BorrowedBooks AS Y
+                        WHERE Y.reader_ID = {readerId}
+                    )
+                )
+                AND EXISTS
+                (
+                    SELECT *
+                    FROM BorrowedBooks AS X0
+                    WHERE X0.reader_ID = {readerId}
+                    AND X0.book_ID NOT IN
+                    (
+                        SELECT Y0.book_ID
+                        FROM BorrowedBooks AS Y0
+                        WHERE Y0.reader_ID = R.reader_ID
+                    )
+                )"
+                )
+                .ToList();
+            return View("QueryB4", readers);
+        }
     }
 }
