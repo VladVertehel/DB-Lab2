@@ -200,7 +200,10 @@
         </div>
 
         <div class="el">
-            <h5 style="margin-right: 10px;">Знайти всі жанри авторів, у яких є жанр</h5>
+            <h5 style="margin-right: 10px;">
+                Знайти жанри, в яких є усі платівки від авторів, що мають платівку
+                у заданому жанрі
+            </h5>
             @using (Html.BeginForm("QueryB2", "Queries", FormMethod.Post, new { @class = "form-inline" }))
             {
                 <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
