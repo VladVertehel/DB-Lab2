@@ -175,46 +175,12 @@ namespace LibraryWebApplication1.Controllers
         {
             var readers = _context.Readers
                 .FromSqlInterpolated($@"
-                SELECT *
+                SELECT R.*
                 FROM Readers AS R
-                WHERE NOT EXISTS
+                WHERE R.reader_ID != {readerId}
+                AND NOT EXISTS
                 (
-                    SELECT *
-                    FROM BorrowedBooks AS X
-                    WHERE X.reader_ID = R.reader_ID
-                    AND X.book_ID NOT IN
-                    (
-                        SELECT Y.book_ID
-                        FROM BorrowedBooks AS Y
-                        WHERE Y.reader_ID = {readerId}
-                    )
-                )
-                AND EXISTS
-                (
-                    SELECT *
-                    FROM BorrowedBooks AS X0
-                    WHERE X0.reader_ID = {readerId}
-                    AND X0.book_ID NOT IN
-                    (
-                        SELECT Y0.book_ID
-                        FROM BorrowedBooks AS Y0
-                        WHERE Y0.reader_ID = R.reader_ID
-                    )
-                )"
-                )
-                .ToList();
-            return View("QueryB4", readers);
-        }
-        [HttpPost]
-        public IActionResult QueryB5(int readerId)
-        {
-            var readers = _context.Readers
-                .FromSqlInterpolated($@"
-                SELECT *
-                FROM Readers AS R
-                WHERE NOT EXISTS
-                (
-                    SELECT *
+                    SELECT X.book_ID
                     FROM BorrowedBooks AS X
                     WHERE X.reader_ID = {readerId}
                     AND X.book_ID NOT IN
@@ -224,9 +190,9 @@ namespace LibraryWebApplication1.Controllers
                         WHERE Y.reader_ID = R.reader_ID
                     )
                 )
-                AND EXISTS
+                AND NOT EXISTS
                 (
-                    SELECT *
+                    SELECT X0.book_ID
                     FROM BorrowedBooks AS X0
                     WHERE X0.reader_ID = R.reader_ID
                     AND X0.book_ID NOT IN
@@ -235,8 +201,43 @@ namespace LibraryWebApplication1.Controllers
                         FROM BorrowedBooks AS Y0
                         WHERE Y0.reader_ID = {readerId}
                     )
-                )"
                 )
+                ").ToList();
+            return View("QueryB4", readers);
+        }
+        [HttpPost]
+        public IActionResult QueryB5(int readerId)
+        {
+            var readers = _context.Readers
+                .FromSqlInterpolated($@"
+                SELECT R.*
+                FROM Readers AS R
+                WHERE R.reader_ID <> {readerId}
+                AND NOT EXISTS
+                (
+                    SELECT 1
+                    FROM BorrowedBooks AS X
+                    WHERE X.reader_ID = {readerId}
+                    AND X.book_ID NOT IN
+                    (
+                        SELECT Y.book_ID
+                        FROM BorrowedBooks AS Y
+                        WHERE Y.reader_ID = R.reader_ID
+                    )
+                )
+                AND NOT EXISTS
+                (
+                    SELECT 1
+                    FROM BorrowedBooks AS X0
+                    WHERE X0.reader_ID = R.reader_ID
+                    AND X0.book_ID NOT IN
+                    (
+                        SELECT Y0.book_ID
+                        FROM BorrowedBooks AS Y0
+                        WHERE Y0.reader_ID = {readerId}
+                    )
+                );
+                ")
                 .ToList();
             return View("QueryB5", readers);
         }
