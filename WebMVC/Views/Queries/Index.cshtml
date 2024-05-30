@@ -223,7 +223,7 @@
         </div>
 
         <div class="el">
-            <h5 style="margin-right: 10px;">Знайти усіх користувачів, які замовили платівки замовлені користувачем і ще щось</h5>
+            <h5 style="margin-right: 10px;">Знайти користувачів, які замовили усі платівки замовлені користувачем і ще щось</h5>
             @using (Html.BeginForm("QueryB3", "Queries", FormMethod.Post, new { @class = "form-inline" }))
             {
                 <div class="form-group" style="margin-right: 10px; display: flex; flex-wrap: nowrap; align-items: center;">
@@ -241,6 +241,23 @@
 
         <div class="el">
             <h5 style="margin-right: 10px;">Знайти користувачів, які замовили тільки платівки замовлені користувачем і не всі</h5>
+            @using (Html.BeginForm("QueryB4", "Queries", FormMethod.Post, new { @class = "form-inline" }))
+            {
+                <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">
+                    <select class="form-control" id="readerId" name="readerId">
+                        @foreach (var reader in @ViewBag.Readers)
+                        {
+                            <option value="@reader.ID">@reader.Name</option>
+                        }
+                    </select>
+                    <button type="submit" class="btn btn-default color"><img style="scale: 90%;" src="../css/search.png" alt="Alternate Text" /></button>
+
+                </div>
+            }
+        </div>
+
+        <div class="el">
+            <h5 style="margin-right: 10px;">Знайти користувачів, які замовили тільки ті платівки, що замовив користувач</h5>
             @using (Html.BeginForm("QueryB4", "Queries", FormMethod.Post, new { @class = "form-inline" }))
             {
                 <div class="form-group" style="margin-right: 10px; display: flex; align-items: center;">

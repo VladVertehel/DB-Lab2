@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Infrastracture;
+﻿using Infrastracture;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace LibraryWebApplication1.Controllers
@@ -205,6 +204,41 @@ namespace LibraryWebApplication1.Controllers
                 )
                 .ToList();
             return View("QueryB4", readers);
+        }
+        [HttpPost]
+        public IActionResult QueryB5(int readerId)
+        {
+            var readers = _context.Readers
+                .FromSqlInterpolated($@"
+                SELECT *
+                FROM Readers AS R
+                WHERE NOT EXISTS
+                (
+                    SELECT *
+                    FROM BorrowedBooks AS X
+                    WHERE X.reader_ID = {readerId}
+                    AND X.book_ID NOT IN
+                    (
+                        SELECT Y.book_ID
+                        FROM BorrowedBooks AS Y
+                        WHERE Y.reader_ID = R.reader_ID
+                    )
+                )
+                AND EXISTS
+                (
+                    SELECT *
+                    FROM BorrowedBooks AS X0
+                    WHERE X0.reader_ID = R.reader_ID
+                    AND X0.book_ID NOT IN
+                    (
+                        SELECT Y0.book_ID
+                        FROM BorrowedBooks AS Y0
+                        WHERE Y0.reader_ID = {readerId}
+                    )
+                )"
+                )
+                .ToList();
+            return View("QueryB5", readers);
         }
     }
 }
